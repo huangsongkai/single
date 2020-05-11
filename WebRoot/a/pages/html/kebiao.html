@@ -1,0 +1,236 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>个人课表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../js/layui2/css/layui.css">
+<script type="text/javascript" src="../js/jquery-1.9.1.js" ></script>
+<script src="../js/layui2/layui.js"></script>
+<style>
+body{padding: 10px;}
+</style>
+</head>
+<body>
+	
+<div id="box">
+	<blockquote class="layui-elem-quote" style="padding: 5px">
+		&nbsp;&nbsp;&nbsp;
+		个人课表
+	</blockquote>
+	<div class="layui-field-box">
+	    <form class="layui-form" action="">
+	    	<div class="layui-form-item">
+		    	<div class="layui-inline">
+				    <label class="layui-form-label">学期</label>
+				    <div class="layui-input-inline" style="width: 150px;">
+				      	<select name="xueqi" id="xueqi" lay-filter="xueqi">
+				 
+				      	<option value="2003-2004-1"> 2003-2004-1 </option>
+				      		
+				        </select>
+				    </div>
+			    </div>
+			     <div class="layui-inline">
+				    <label class="layui-form-label">周次</label>
+				    <div class="layui-input-inline" style="width: 100px;">
+				      	<select  id="zhouci">
+				      		<option value="0">全部</option>
+								
+				        </select>
+				    </div>
+			    </div>
+			    <div class="layui-inline">
+				    <label class="layui-form-label">教师</label>
+				    <div class="layui-input-inline">
+				      	<select lay-search lay-filter="teacher" id="teacher" name="teacher">
+				      		
+							<option value="0"></option>
+				        </select>
+				    </div>
+		      	</div>	
+			</div>
+			
+			<table id="my-table1" class="layui-table">
+			  <thead>
+			    <tr id="my-table1th">
+			      <th></th>    
+			    </tr> 
+			  </thead>
+			  <tbody id="my-tbody">	  
+			  </tbody>
+			</table>
+		</form>
+    </div>
+</div>
+
+<script>
+        var getParam = function () {
+            try{
+            var url = window.location.href;
+            var result = url.split("?")[1];
+            var keyValue = result.split("&");
+            var obj = {};
+            for (var i = 0; i < keyValue.length; i++) {
+                var item = keyValue[i].split("=");
+                obj[item[0]] = item[1];
+            }
+            return obj;}catch(e){
+                console.warn("There has no param value!");
+            }
+        };
+</script>
+<script>
+//构建课表表格
+function initTable(){
+		var a = '';
+		for(var i =1 ;i<=7;i++){
+			     a =a+ '<th><div class="layui-inline"><div class="layui-input-inline" style="width: 120px;">星期'+i+'</div></div></th>';
+		};
+		$('#my-table1th').append(a);
+		var b ='';	
+		var m =0;
+		for(var j=1;j<8;j=j+2){
+			b=b+ '<tr><td><div class="layui-inline"><div class="layui-input-inline" style="width: 120px;">第'+j+(j+1)+'节</div></div></td>';
+		for(var g=0;g<7;g++){
+			b = b+ '<td id="'+g+'_'+m+'" class="moren"></td>'
+			}
+			b =b+'</tr>';
+		m++;} 
+		$('#my-tbody').append(b);
+		//周次选项
+		var  c ='';
+		for(var k=1;k<=30;k++){
+			c =c +'<option value='+k+'>'+k+'</option>';
+		}
+		$('#zhouci').append(c);
+}
+
+
+layui.use(['form','layer','jquery'], function(){
+	var form = layui.form;
+	var $ = layui.jquery;
+
+	//监听下拉
+	form.on('select(xueqi)',function(data){
+		if($('#teacher').val()!='0'){
+			kebiao($('#teacher').val());
+		}
+	})
+
+	//监听提交
+	form.on('submit(*)', function(data){
+		return false;
+	});
+
+	$(function(){
+		  var apptoken =getParam().apptoken;
+		  getData(apptoken);
+		initTable();	
+		form.render();
+		if($('#teacher').val()!='0'){
+			kebiao($('#teacher').val());
+		}
+	})
+	
+	function getData(apptoken){
+		var obj_str1 = {"apptoken":apptoken};
+		var obj1 = JSON.stringify(obj_str1);
+		var ret_str1  = PostAjx('../../../Api/v1/?p=app/person/data',obj1,apptoken);
+		obj1 = JSON.parse(ret_str1);
+		if(obj1.success){
+			$('#xueqi').html(obj1.semData);
+			$('#teacher').html(obj1.teaData);
+		}
+	}
+	//获取课表
+	form.on('select(teacher)',function(data){
+		kebiao(data.value);
+	})
+	
+	form.on('radio(kbRadio)',function(data){
+		if($('#teacher').val()!='0'){
+			kebiao($('#teacher').val());
+		}
+	})
+	
+	function kebiao(teacherid){
+		var apptoken =getParam().apptoken;
+		if(teacherid!='0'){
+			//获取学期
+			var xueqi = $("#xueqi").val();
+			if(xueqi=="0"){
+				layer.msg('请选择学期学号');
+				return ;
+			}
+			var zhouci = $("#zhouci").val();
+			var teacher_id = teacherid;	
+			var obj_str1 = {"xueqi":xueqi,"teacher_id":teacher_id,"zhouci":zhouci,"kebiaotype":1};
+			var obj1 = JSON.stringify(obj_str1)
+			var ret_str1=PostAjx('../../../Api/v1/?p=web/kebiao/getScheduleTeacherInfo',obj1,apptoken);
+			obj1 = JSON.parse(ret_str1);
+			if(obj1.success){
+				$(".moren").each(function(){
+					$(this).text('');
+				});
+				var array = obj1.data
+				for(var i =0 ; i<array.length;i++){
+					var array1 = array[i].timetable;
+					for(var j=0;j<array1.length;j++){
+						var array2 = array1[j]
+						for(var m =0 ;m<array2.length;m++){
+							if(array2[m]=="0"){
+								var str = array[i].course_name+"<br>";
+								str += array[i].classname+"<br>";
+								str +=  array[i].class_begins_weeks+"<br>";
+								str += array[i].classroomname;
+								$("#"+j+"_"+m+"").html(str);
+							}
+						}
+					}
+				}
+			}
+		}
+		}
+});
+</script>
+<script>
+	//封装Ajax请求数据函数
+function PostAjx(Purl,strvalue,token)// 发送数据
+{   
+	 var backdata; 
+	$.ajax({
+		type : "POST",
+		url : Purl,
+		data : strvalue,
+		async : false,//不是同步的话 返回值娶不到
+		datatype : "json",// "xml", "html", "script", "json", "jsonp",
+		success : function(data,status) {
+		    backdata=data;
+		},
+		complete : function(XMLHttpRequest, textStatus) {//调用执行后调用的函数
+			 if (textStatus == "success") {
+			 }
+		},
+		error : function() {// 调用出错执行的函数
+			backdata="系统消息：网络故障与服务器失去联系";
+		},
+	    headers : {
+            "Content-Type":"multipart/form-data",
+            "X-AppId":"8381b915c90c615d66045e54900feeab",// 标明正在运行的是哪个App程序
+	        "X-AppKey":"72393aaa69c41a24d0d40e851301647a",// 授权鉴定终端
+            "X-UUID":"app",
+              "Token":""+token+"",// 授权鉴定终端
+            "X-Mdels":"app",
+	    }
+	});
+	  return backdata;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+"C:\Program Files\TortoiseSVN\bin\TortoiseProc.exe"  /command:update /path:"D:\wwwroot\dev.e168.cn\webapps\hljsfjy" /closeonend:1

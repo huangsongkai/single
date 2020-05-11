@@ -1,0 +1,52 @@
+.rt{float:right;}
+.lt{float:left;}
+.mar_l10 {margin-left:10px;}
+.right_top{background: #f3f3f3;color:#000;height:60px;line-height:60px;padding-left:20px;border-bottom:1px solid #cacaca}
+.layui-btn-danger{ padding:0 150px;margin-top:30px;}
+.form_top{padding:10px 3px;zoom:1;float:left}
+.form_top .layui-input-inline{width:120px}
+.form_top .layui-form-label{width:auto;font-size:13px;color:#555}
+.form_top .layui-form-select .layui-input{font-size:12px;color:#555}
+.form_top .textbox-text{ width: 180px; float:left;height:30px;line-height:30px;margin-right:10px;border:1px solid #C9C9C9;}
+.form_top .layui-btn-primary:hover{border:1px solid #C9C9C9}
+.form_top .layui-icon{color:red;}
+.layui-form-item .layui-inline{margin-right:0}
+.layui-form h4{border-bottom:1px solid #ccc;line-height:40px;margin-bottom:25px;font-weight: bold;padding-left:20px;}
+.layui-form-label{padding:4px 10px;}
+.layui-form-item{margin-bottom:10px}
+.layui-form-item .layui-input-inline{width:120px;margin-right:0}
+.layui-input, .layui-select, .layui-textarea{height:28px;line-height:28px;}
+.lang_form .layui-form-item .layui-input-inline{width:160;}
+.lang_form{margin:20px;}
+.lang_form .layui-form-label{width:120px}
+.layui-form-label.file{padding:9px 10px;}
+.layui-upload-button.file{width:80%}
+.oldcar{display:none}
+.cuoz th{font-weight: normal;}
+.cuoz a{font-size:14px;margin:0 8px;cursor:pointer;}
+.cuoz a:hover{text-decoration: none;}
+/****æ≠œ˙…Ã****/
+.no_bg{background: none}
+.form_top .textbox-text.rt{float:right;}
+.layui-form table a{color:#86B9DF; margin:0 5px;cursor: pointer;}
+.right_top .layui-form-item .layui-inline{margin-bottom:0;}
+
+.list_table{}
+.list_table li{float: left;margin:0 5px;}
+.list_table li a{color:#fff;}
+.list_table li a:hover{text-decoration: none;}
+
+/********/
+#tupian div{float:left;width:50px;height:50px;position:relative;overflow: hidden;margin:0 10px;background-position: center;
+background-size: cover; cursor:pointer;}
+#tupian div span{position:absolute;display:block;width:20px;height:20px;background:rgba(0,0,0,0.5);color:#fff;font-size:20px;line-height:20px;text-align: center;right:0;display:none;}
+#tupian div:hover span{display:block}
+
+.mar_20{margin-top:20px}
+.more{padding-top:20px;}
+.more .tianjia{display:block;width:880px;height:40px;line-height:40px;text-align:center;border:2px dotted #ccc;margin:20px auto;cursor:pointer;}
+.more .dingwei{position:relative;}
+.more .dingwei .layui-inline{}
+.more .dingwei a.shan{position:absolute;right:-12px;top:-4px;display:none;cursor:pointer;}
+
+

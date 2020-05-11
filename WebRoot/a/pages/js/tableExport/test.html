@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>导出表格-演示</title><!--title 必须存在   表格文件说明-->
+  <link rel="stylesheet" href="../../js/layui/css/layui.css">
+  <script type="text/javascript" src="../../js/jquery-1.9.1.js" ></script><!--通用jquery-->
+  <script src="../../js/layui/layui.js"></script>
+  <script type="text/javascript" src="js/table-sort.js" ></script><!--表格排序js  css-->
+  <script type="text/javascript" chartset="utf8" src="js/table_list.js " ></script><!--表格导出js  css-->
+
+</head>
+<body>
+
+  
+	<div id="asc" class="form_top layui-form" style="display: flex;    float: right;">
+        <div class="layui-inline">
+			    <label class="layui-form-label" style="color: #19a094;font-size: 20px; margin-top: 4px;">导出:</label>
+			    <div class="layui-input-inline" style="margin-top: 4px;">
+			      <select name="gender" lay-verify="required"  lay-filter="Export">
+			         <option value="请选择格式" selected="">请选择格式</option>
+					         	<option value="CSV"> CSV </option>
+					         	<option value="XLS"> XLS </option>
+					         	<option value="XLSX"> XLSX </option>
+					         	<option value="PDF"> PDF </option>
+					         	<option value="XML"> XML </option>
+					         	<option value="SQL"> SQL </option>
+					         	<option value="Word"> Word </option>
+					         	<option value="PNG"> PNG </option>
+					         	<option value="JSON"> JSON </option>
+					         	<option value="TXT"> TXT </option>
+			      </select>
+			    </div>
+		</div>
+    </div>
+    <div class="container table-striped" >
+		<table id="table" data-toggle="table" data-show-toggle="true" data-show-columns="true" >
+		  <thead>
+		    <tr>
+		      <th lay-data="{field:'username', width:80px,height:80px}" rowspan="3">联系人</th>
+		      <th lay-data="{field:'amount', width:120,height:80}" rowspan="3">金额</th>
+		      <th lay-data="{align:'center'}" colspan="5">地址1</th>
+		      <th lay-data="{align:'center'}" colspan="2">地址2</th>
+		      <th lay-data="{fixed: 'right', width: 160,height:80, align: 'center', toolbar: '#barDemo'}" rowspan="3">操作</th>
+		    </tr>
+		    <tr>
+		      <th lay-data="{field:'province', width:80 ,height:80}" rowspan="2">省</th>
+		      <th lay-data="{field:'city', width:80,height:80}" rowspan="2">市</th>
+		      <th lay-data="{align:'center'}" colspan="3">详细</th>
+		      <th lay-data="{field:'province', width:80,height:80}" rowspan="2">省</th>
+		      <th lay-data="{field:'city', width:80,height:80}" rowspan="2">市</th>
+		    </tr>
+		    <tr>
+		      <th lay-data="{field:'street', width:120,height:80}" >街道</th>
+		      <th lay-data="{field:'address', width:120,height:80}">小区</th>
+		      <th lay-data="{field:'house', width:120,height:80}">单元</th>
+		    </tr>
+		  </thead>
+		   <tbody>
+		        <tr>
+		          <td>张三</td>
+		          <td>11</td>
+		          <td>12</td>
+		          <td>21</td>
+		          <td>22</td>
+		          <td>23</td>
+		          <td>24</td>
+		          <td>31</td>
+		          <td>32</td>
+		          <td>33</td>
+		        </tr>
+		        <tr>
+		          <td>Joe Smith</td>
+		          <td>41</td>
+		          <td>42</td>
+		          <td>51</td>
+		          <td>52</td>
+		          <td>53</td>
+		          <td>54</td>
+		          <td>61</td>
+		          <td>62</td>
+		          <td>63</td>
+		        </tr>
+		      </tbody>
+		</table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+*{margin:0;padding:0;}
+li{list-style: none}
+a{text-decoration:none;}
+img{border:none;}
+h1,h2,h3,h4,h5,h6{font-weight:normal;}
+body{font-family:Arial, "微软雅黑";}
+
+.center_box{width: 1000px; margin: 0 auto;height: auto;}
+#logo_img img{width:100%;}
+
+#navbar{ height: 36px;width: 100%;background: url(../images/bg1.jpg);}
+#navbar li{float: left;padding: 0 20px;line-height: 36px;font-size: 13px;
+border-left: 1px solid #295ea2;border-right: 1px solid #6baff2;}
+#navbar a{color:#000;}
+#navbar a:hover{color:#fff;}
+
+#news_box{width: 100%;height: auto;}
+#news_box>li{float: left;width: 33.333%;margin-top: 26px;}
+.news_list{width: 100%;height: auto;border:1px solid #afc8da;background: #fff;}
+.list_top{height: 33px;background: url(../images/bg2.png);width: 100%}
+.list_bottom{height: auto;width: 100%;}
+.list_bottom li{height: 34px;border-top:1px #c3c3c3 dotted;border-bottom:1px #c3c3c3 dotted;
+line-height: 34px;font-size: 13px;padding-left:20px;
+background: url(../images/dian.png) no-repeat 5px center;margin: 0 10px;}
+.list_bottom li:first-child{border-top: none;}
+.list_bottom li:last-child{border-bottom: none;}
+.list_bottom a{color: #383c3e;display:inline-block;overflow: hidden;text-overflow:ellipsis;
+white-space: nowrap;width: 73%;}
+.list_bottom span{display:inline-block;width: 23%;color:#0166e6;vertical-align:top;text-align:right;}
+.list_bottom a:hover{color: #ff0000}
+.clear_box{clear: both;}
+.list_left{float: left;font-size: 13px;background:url(../images/notify.png) no-repeat 5px center;
+height: 33px;padding-left:40px;line-height: 33px;font-weight: bold;}
+.list_right{float: right;font-size: 13px;height: 33px;line-height: 33px;font-weight: bold;
+padding-right: 8px}
+.list_right a{color: #6d6d6d}
+.subnav li{float: left;padding: 0 10px;cursor: pointer;}
+.active{border:1px solid #afc8da;border-bottom: none;background: #fff;}
+
+#link_box{margin-top: 20px;width: 100%;height: 158px;background: #d5e7e9;}
+#link_box .link_top{width: 786px;margin: 0 auto;height: 52px;padding: 28px 0;}
+.link_top li{width: 122px;border:#a0b7c7 1px solid;height: 40px;padding:2px 2px;
+float: left;margin-right: 3px}
+.link_top li:hover{border:1px solid #ff0000;}
+.link_bottom{width:923px;margin:0 auto;height: 34px;}
+.link_bottom li{float: left;border-right: 1px #f7fafb solid;height: 34px;
+background:url(../images/mailbox.png) no-repeat left center;margin-right: 5px;
+padding-left: 33px;padding-right: 14px;margin-right: 14px;}
+.link_bottom li:last-child{border-right:none;}
+.link_bottom li a{color: #105085;font-size: 12px;display:block;height: 34px}
+.link_bottom li a:hover{color: #ff0000;}
+
+#copyright_box{height: 26px;color: #3b3c3e;width: 100%;
+background: url(../images/bg1.jpg);font-size: 12px;text-align:center;line-height: 26px;}

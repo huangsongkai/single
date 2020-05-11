@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>首页</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+   <meta name="renderer" content="webkit"/>
+   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+   
+   <link href="css/bootstrap.css" rel="stylesheet"/>
+   <link rel="stylesheet" href="css/swiper-3.3.1.min.css">
+   <script src="js/jquery-1.9.1.js"></script>
+   <script src="js/swiper-3.3.1.min.js"></script>
+   <link href="css/main.css?7.0.1" rel="stylesheet"/>
+</head>
+<script>
+	
+</script>
+<body class="course-list-page bg-blank">
+	<div class="es-wrap" style="width:100%;overflow:hidden">
+		<div class="swiper-container1 daohang">
+	        <div class="swiper-wrapper">
+	            <div class="swiper-slide on">首页</div>
+	            <div class="swiper-slide"><a href="zhibo.html">课堂</a> </div>
+	            <div class="swiper-slide"><a href="list.html"> 课程 </a></div>
+	            <div class="swiper-slide"><a href="chengji.html"> 成绩 </a></div>
+	            <div class="swiper-slide"><a href="app.html"> 下载APP </a></div>
+	        </div>
+	        <!-- Add Pagination -->
+        </div>
+		<div class="swiper-container">
+		    <div class="swiper-wrapper">
+		        <div class="swiper-slide"><a target="_blank" href="xiangqing.html"><img src="img/start.jpg"/><p>我院举办党的群众路线教育实践活动专题报告会</p></a></div>
+		        <div class="swiper-slide"><a target="_blank" href="xiangqing.html"><img src="img/start.jpg"/><p>我院举办党的群众路线教育实践活动专题报告会</p></a></div>
+		        <div class="swiper-slide"><a target="_blank" href="xiangqing.html"><img src="img/start.jpg"/><p>我院举办党的群众路线教育实践活动专题报告会</p></a></div>
+		    </div>
+		    <!-- 如果需要分页器 -->
+		    <div class="swiper-pagination"></div>
+		</div>
+		<div class="newlist">
+			<dl>
+				<a target="_blank" href="xiangqing.html">
+					<dd>
+						<p class="biaoti" >关于2016年下半年半年全国大学外语全国大学外语四、六级考试报名的通知</p>
+						<p class="liulan">刚刚&nbsp;&nbsp;校园公告 </p>
+					</dd>
+					<dt><img src="img/start.jpg"/></dt>
+				</a>
+			</dl>
+			<dl>
+				<a target="_blank" href="xiangqing.html">
+					<dd class="wutulist">
+						<p class="biaoti" >关于2016年下半年半年全国大学外语全国大学外语四、六级考试报名的通知</p>
+						<p class="liulan">刚刚&nbsp;&nbsp;校园公告  </p>
+					</dd>
+				</a>
+			</dl>
+		</div>
+      </div>
+</body>
+
+<script>
+  var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.swiper-pagination',
+    loop:true,
+    grabCursor: true,
+    paginationClickable: true,
+  });
+  var mySwiper = new Swiper('.swiper-container1',{
+        slidesPerView: 3.5,
+        paginationClickable: true,
+
+    
+  });
+  </script>
+
+</html>

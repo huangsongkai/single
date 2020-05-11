@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <!-- -
+    <servlet>
+		<servlet-name>AutoPost</servlet-name>
+		<servlet-class>weixinapi.autop</servlet-class>
+		<load-on-startup>0</load-on-startup>  
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AutoPost</servlet-name>
+		<url-pattern>/AutoPost</url-pattern>
+	</servlet-mapping> 
+	 -->
+	<servlet>
+      <display-name>api接口默认入口</display-name>
+		<servlet-name>Api</servlet-name>
+		<servlet-class>v1.Api</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Api</servlet-name>
+		<url-pattern>/Api/v1/</url-pattern>
+	</servlet-mapping>
+	
+	
+	 <servlet>
+      <display-name>手机api接口默认入口</display-name>
+		<servlet-name>appApi</servlet-name>
+		<servlet-class>v1.appApi</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appApi</servlet-name>
+		<url-pattern>/appApi/</url-pattern>
+	</servlet-mapping>
+ 
+ 
+ 
+  	<servlet>
+      <display-name>成绩api接口默认入口</display-name>
+		<servlet-name>gradeApi</servlet-name>
+		<servlet-class>v1.gradeApi</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>gradeApi</servlet-name>
+		<url-pattern>/gradeApi/</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>成绩统计接口默认入口</display-name>
+		<servlet-name>cjdeApi</servlet-name>
+		<servlet-class>v1.cjdApi</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cjdeApi</servlet-name>
+		<url-pattern>/cjdApi/</url-pattern>
+	</servlet-mapping>
+
+	<!--统计入口-->
+	<servlet>
+		<display-name>课程成绩单导出</display-name>
+		<servlet-name>courseCjd</servlet-name>
+		<servlet-class>v1.grade.CourseCjd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>courseCjd</servlet-name>
+		<url-pattern>/courseCjd</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>课程成绩单统计导出</display-name>
+		<servlet-name>courseTjCjd</servlet-name>
+		<servlet-class>v1.grade.CourseTjCjd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>courseTjCjd</servlet-name>
+		<url-pattern>/courseTjCjd</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<display-name>班级成绩单打印</display-name>
+		<servlet-name>classCjd</servlet-name>
+		<servlet-class>v1.grade.ClassCjd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>classCjd</servlet-name>
+		<url-pattern>/classCjd</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>学生成绩单打印</display-name>
+		<servlet-name>studentCjd</servlet-name>
+		<servlet-class>v1.grade.StudentCjd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>studentCjd</servlet-name>
+		<url-pattern>/studentCjd</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>不及格成绩单打印</display-name>
+		<servlet-name>failCjd</servlet-name>
+		<servlet-class>v1.grade.FailCjd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>failCjd</servlet-name>
+		<url-pattern>/failCjd</url-pattern>
+	</servlet-mapping>
+
+
+
+
+
+
+
+
+ 
+	<!--<servlet>-->
+    <!--<description>微信oauth鉴权</description>-->
+    <!--<servlet-name>test</servlet-name>-->
+    <!--<servlet-class>com.h5.oauth2h5</servlet-class>-->
+  <!--</servlet>-->
+
+  	<!--<servlet-mapping>-->
+    	<!--<servlet-name>test</servlet-name>-->
+    	<!--<url-pattern>/Api/oauth2h5</url-pattern>-->
+  	<!--</servlet-mapping>-->
+
+
+	<servlet>
+	   <display-name>附件上传</display-name>
+	   <servlet-name>up_file</servlet-name>
+	   <servlet-class>service.file.UpFile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>up_file</servlet-name>
+		<url-pattern>/Api/v1/up</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <display-name>Excel导入</display-name>
+	   <servlet-name>import_excel</servlet-name>
+	   <servlet-class>v1.web.file.UpExcelFile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>import_excel</servlet-name>
+		<url-pattern>/Api/v1/importExcel</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <display-name>手机端—附件上传</display-name>
+	   <servlet-name>upfile</servlet-name>
+	   <servlet-class>v1.haocheok.file.UpFile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>upfile</servlet-name>
+		<url-pattern>/Api/v1/app_up</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <display-name>pc端_附件上传</display-name>
+	   <servlet-name>Attachment_upload</servlet-name>
+	   <servlet-class>v1.web.file.Report_Upservlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Attachment_upload</servlet-name>
+		<url-pattern>/Api/v1/pc_Upservlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>客户上传图片</display-name>
+		<servlet-name>upfile_customer</servlet-name>
+		<servlet-class>v1.web.file.Upservlet</servlet-class>
+	</servlet>
+  <!--<servlet>-->
+    <!--<description>This is the description of my J2EE component</description>-->
+    <!--<display-name>This is the display name of my J2EE component</display-name>-->
+    <!--<servlet-name>SendCode</servlet-name>-->
+    <!--<servlet-class>v1.haocheok.commom.SendCode</servlet-class>-->
+  <!--</servlet>-->
+
+	<!--<servlet-mapping>-->
+		<!--<servlet-name>upfile_customer</servlet-name>-->
+		<!--<url-pattern>/Api/customer/up</url-pattern>-->
+	<!--</servlet-mapping>-->
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>SendCode</servlet-name>-->
+    <!--<url-pattern>/servlet/SendCode</url-pattern>-->
+  <!--</servlet-mapping>-->
+  
+	<!--  
+  	 <database>
+			<jndi-name>jdbc/mysqldb_read</jndi-name>
+			<driver type="com.mysql.jdbc.Driver">
+				<url>jdbc:mysql://hljsfjy.work:3306/dev_hljsfjy_db?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8
+				</url>
+				<user>uhljsfjy</user>
+				<password>uhljsfjy</password>
+			</driver>
+			<prepared-statement-cache-size>8</prepared-statement-cache-size>
+			<max-connections>100</max-connections>
+			<max-idle-time>600s</max-idle-time>
+		 </database> 		
+		 <database>
+			<jndi-name>jdbc/mysqldb_write</jndi-name>
+			<driver type="com.mysql.jdbc.Driver">
+				<url>jdbc:mysql://hljsfjy.work:3306/dev_hljsfjy_db?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8
+				</url>
+				<user>uhljsfjy</user>
+				<password>uhljsfjy</password>
+			</driver>
+			<prepared-statement-cache-size>8</prepared-statement-cache-size>
+			<max-connections>100</max-connections>
+			<max-idle-time>600s</max-idle-time>
+		</database> 
+	-->
+	   <!--
+		<database>
+			<jndi-name>jdbc/mysqldb_read</jndi-name>
+			<driver type="com.mysql.jdbc.Driver">
+				<url>jdbc:mysql://dev.e168.cn:3306/dev_hljsfjy_db?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8
+				</url>
+				<user>uhljsfjy</user>
+				<password>uhljsfjy</password>
+			</driver>
+			<prepared-statement-cache-size>8</prepared-statement-cache-size>
+			<max-connections>100</max-connections>
+			<max-idle-time>600s</max-idle-time>
+		 </database> 		
+		 <database>
+			<jndi-name>jdbc/mysqldb_write</jndi-name>
+			<driver type="com.mysql.jdbc.Driver">
+				<url>jdbc:mysql://dev.e168.cn:3306/dev_hljsfjy_db?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8
+				</url>
+				<user>uhljsfjy</user>
+				<password>uhljsfjy</password>
+			</driver>
+			<prepared-statement-cache-size>8</prepared-statement-cache-size>
+			<max-connections>100</max-connections>
+			<max-idle-time>600s</max-idle-time>
+		</database>
+		-->
+
+	<database>
+		<jndi-name>jdbc/mysqldb_read</jndi-name>
+		<driver type="com.mysql.jdbc.Driver">
+			<url>jdbc:mysql://127.0.0.1:3306/dev_hljsfjy_db?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8
+			</url>
+			<user>root</user>
+			<password>123456</password>
+		</driver>
+		<prepared-statement-cache-size>8</prepared-statement-cache-size>
+		<max-connections>100</max-connections>
+		<max-idle-time>600s</max-idle-time>
+	</database>
+	<database>
+		<jndi-name>jdbc/mysqldb_write</jndi-name>
+		<driver type="com.mysql.jdbc.Driver">
+			<url>jdbc:mysql://127.0.0.1:3306/dev_hljsfjy_db?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8
+			</url>
+			<user>root</user>
+			<password>123456</password>
+		</driver>
+		<prepared-statement-cache-size>8</prepared-statement-cache-size>
+		<max-connections>100</max-connections>
+		<max-idle-time>600s</max-idle-time>
+	</database>
+
+
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<mime-mapping>
+		<extension>rar</extension>
+		<mime-type>application/rar</mime-type>
+	</mime-mapping>
+
+	<!-- 初始化log4j -->
+	<servlet>
+		<servlet-name>testlog4j</servlet-name>
+		<servlet-class>service.sys.initLog4j</servlet-class>
+		<init-param>
+			<param-name>log4j</param-name>
+             <param-value>WEB-INF/log4j.properties</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+</web-app>

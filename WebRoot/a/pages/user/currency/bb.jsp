@@ -1,0 +1,122 @@
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@page import="service.dao.db.Page"%>
+
+<%@include file="../../cookie.jsp"%>
+<%
+
+//订单id，
+	String orderid= request.getParameter("orderid");
+//System.out.println("orderid==="+orderid);  
+//角色id，
+	String roleid= request.getParameter("roleid");
+//System.out.println("roleid==="+roleid); 
+//查询用户所有的表单
+	String user_from="SELECT  "+
+						   "form_name.datafrom ,"+
+						   "form_name.formname ,"+
+						   "form_name.id "+
+					 "FROM role_from "+
+					 	   "LEFT JOIN form_name ON role_from.fromid=form_name.id "+
+					 "WHERE  role_from.roleid='"+roleid+"' and role_from.code=0  ORDER BY role_from.code DESC ;";
+//System.out.println("user_from=="+user_from);  
+	ResultSet from_rs= db.executeQuery(user_from);
+	
+	
+	//表单英文名 
+	String english_from="";
+	//表单中文名 Chinese 
+	String chinese_from="";
+	while(from_rs.next()){
+			english_from=from_rs.getString("form_name.datafrom");
+			chinese_from=from_rs.getString("form_name.formname");
+			
+			String from_str_sql="SELECT GROUP_CONCAT('\"',title,'|',ftype_tag,'\",',strname  ORDER BY cid ASC) as str FROM form_template_confg WHERE  fid='"+from_rs.getString("form_name.id")+"' ;";
+			String field_str=db.executeQuery_str(from_str_sql);
+			ArrayList<String> z_fieldList= new ArrayList<String>();
+			ArrayList<String> y_fieldList= new ArrayList<String>();
+			String arrstr[]=field_str.split(",");
+			for(int i=0;i<arrstr.length;i++){
+				if(i%2==0){
+					z_fieldList.add(arrstr[i]);
+				}else{
+					y_fieldList.add(arrstr[i]);
+				}
+			}
+			
+System.out.println("z_fieldList=="+z_fieldList); 	
+//System.out.println("y_fieldList=="+y_fieldList); 	
+
+			String test_sql="SELECT  "+y_fieldList.toString().replaceAll("\\[","").replaceAll("\\]","")+"   FROM "+from_rs.getString("form_name.datafrom")+"   WHERE orderid='"+orderid+"';";
+			ResultSet test_rs= db.executeQuery(test_sql);
+			while(test_rs.next()){
+%>			
+
+		
+			<div class="layui-colla-item">
+			    <h2 class="layui-colla-title"><%=chinese_from%></h2>
+			    <div class="layui-colla-content ">
+			     <div class="layui-form-item">
+				<%for(int i=0;i<y_fieldList.size();i++){%>
+				
+					<%
+					  //判断是否为附件类型
+					  String z_str=z_fieldList.get(i).replaceAll("\"","");
+					  String zarr_str[]=z_str.split("\\|");
+					  String enclosure_str="";
+					  if("imageup".equals(zarr_str[1]) || "file".equals(zarr_str[1]) || "videoup".equals(zarr_str[1]) ){//附件
+					  
+					  		enclosure_str=test_rs.getString(y_fieldList.get(i));
+					  		String enclosurearr[]=enclosure_str.split("#");
+					  		
+					  		%>
+					  			 
+					  			<div class="layui-inline" style="  width: 100%;  margin-top: 5px;">
+							      <label class="layui-form-label"><%=zarr_str[0]%></label>
+							      <div class="layui-input-inline" style="width: 80%;display: flex;">
+					  			
+					  		<%
+					  		for(int en=0;en<enclosurearr.length;en++){
+					  			
+					  			if(enclosurearr[en].indexOf(".png")!=-1){//包含
+					  			%>
+							      	 <span onclick="open_file('<%=enclosurearr[en] %>')" style="width: 50px;     height: 50px;"  >
+							      	 	<img src="<%=enclosurearr[en] %>" style="width: 50px;"  "/><!--  onmousemove="bigImg(this)" onmouseout="normalImg(this) -->
+							      	 </span>  
+							    
+					  			<% 
+					  			}else{
+					  			%>
+					  			     <span onclick="open_file('<%=enclosurearr[en] %>')">
+							      	 	<img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1957916665,2564089942&fm=58&bpow=512&bpoh=512&u_exp_0=1770937561,2247322809&fm_exp_0=86"/>
+							      	 </span>
+					  			<% 
+					  			}
+					  			
+					  		}
+					  		%>
+					  			  </div>
+							    </div>
+							<%
+					  }else{
+					%>
+	 				<div class="layui-inline">
+				      <label class="layui-form-label"><%=zarr_str[0]%></label>
+				      <div class="layui-input-inline">
+				        <input type="text" required readonly="readonly" value="<%=test_rs.getString(y_fieldList.get(i))%>" class="layui-input">
+				      </div>
+				    </div>
+				 
+				<%	}
+				}%>
+				 </div>
+				</div>
+			</div>
+
+
+<% 			
+			}if(test_rs!=null){test_rs.close();}
+	}if(from_rs!=null){from_rs.close();}
+%>	
+ 
+<% if(db!=null)db.close();db=null;if(server!=null)server=null; %>

@@ -1,0 +1,53 @@
+ /*.span6{width:47%;padding-top:150px;}*/
+ .span6{width:47%;padding-top:0px;}
+ #components{ min-height: 600px;}
+ #target{
+   min-height: 426px;
+   border: 1px solid #ccc;
+   padding: 5px;
+ }
+ #target .component{
+   border: 1px solid #ffffff;
+ }
+      #temp{
+        width: 500px;
+        background: white;
+        border: 1px dotted #ccc;
+        border-radius: 10px;
+      }
+
+      .popover-content form {
+        margin: 0 auto;
+        width: 100%;
+      }
+      .popover-content form .btn{
+        margin-right: 10px
+      }
+      #source{
+        min-height: 500px;
+      }
+      .control-group{
+        border: 1px solid #ccc; padding: 10px; 
+        background-color: #f1f1f1;
+      }
+      .popover-content{background:#fff}
+       .popover-content form{background:#fff}
+      .k_attribute{
+        margin: 5px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        border: 1px solid rgb(185, 171, 171);
+        margin-left: -2%;
+        margin-right: 1%;
+        padding-top:6px;
+      }
+	input[type="text"],textarea{margin-bottom:6px;}
+      .submt{margin:0 auto;position:absolute;left:48%;bottom:20px;}
+      #target{position:relative;padding-bottom:40px;}
+	h2{font-size:28px;font-weight:normal;}
+	input[type="radio"], input[type="checkbox"]{margin:0;}
+	.k_attribute .control-label{padding-left:12px;font-size:17px;}
+	dir{padding:0;margin:0;}
+	.container{position:relative;}
+	.popover{max-width:50%;}
+	#div-msg{ padding-top: 2%; text-align: center; position: absolute;  top: 10%;  left:10%;  width: 20%; height: 10%;  border-radius: 6px;    background-color:rgba(0,0,0,0.8); color:#fff;   z-index: 2000;}

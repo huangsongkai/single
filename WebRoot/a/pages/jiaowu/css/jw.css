@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+body{
+	width:100%;
+	}
+.tongyi{
+   	text-align:center;
+   	
+}
+.tongyi img{
+	margin:0 auto;
+}
+.tongyi .imgs{
+    float:left;
+}
+.top{
+    overflow:hidden;	
+}
+.top span{
+	color:red;
+  	float:right;
+  	margin-right:60px;
+}
+a:hover
+{ 
+	cursor:pointer;
+    color:red;
+}

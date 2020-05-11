@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>不及格门数查询</title>
+    <link rel = "stylesheet" href = "bootstrap.css">
+    <script src = "jquery.min.js"></script>
+    <script src = "angular.min.js"></script>
+    <script src = "bootstrap.js"></script>
+</head>
+<body ng-app = "myApp" ng-controller = "PaginationDemoCtrl">
+<div  style = "margin: 0px 30px">
+    <form action = "">
+     <span style = "display: block;width: 100%;height: 30px;background-color: #2e6da4;line-height: 30px">
+         不及格门数查询
+     </span>
+        <div data-tap-disabled = "true" style = "text-align: center;margin-top: 15px">
+            开课学期：
+            <select  class="querySemester" ng-model = "querySemester" name="querySemester">
+                <option value = "" ng-selected="true" >全部</option>
+                <option ng-repeat = "item in querySemester track by item.id " value = "{{item.name}}" id = "{{item.id}}">{{item.name}}
+                </option>
+            </select>
+            院系：
+            <select style="min-width: 80px" class="Department" name="queryDepartment"  ng-model = "queryDepartment" ng-click="opaChangeMajor()"  ng-change="opaChangeMajor()" ng-mouseleave="opaChangeMajor()">
+                <!--<option value = " " ng-selected="true">全部</option>-->
+                <option ng-repeat = "itm in queryDepartment track by itm.id " value = "{{itm.name}}" id="{{itm.id}}">{{itm.name}}</option>
+            </select>
+            专业：
+            <select class="Major" name="queryMajors" ng-model = "queryMajors" ng-click="opaChangeCls()" ng-change = "opaChangeCls()" style="min-width: 80px">
+                <option value = " " ng-selected="true" >全部</option>
+                <option ng-repeat = "aa in queryMajors track by aa.id " value = "{{aa.name}}" id="{{aa.id}}">{{aa.name}}</option>
+            </select>
+            班级：
+            <select class="StudentClass" name="StudentClass">
+                <option value = "" selected="selected">全部</option>
+            </select>
+            <!-- 教研室：
+             <select class="" name="" ng-model = "" ng-click="" ng-change = "">
+                 <option ng-repeat = " in   track by .id " value = "{{}}" id="{{}}">{{}}</option>
+             </select>-->
+            考核方式：
+            <select name="Assessment">
+                <option value = "" selected="selected"> </option>
+                <option name="考试" value="1">考试</option>
+                <option name="考查"  value="2">考查</option>
+            </select>
+            考试性质：
+            <select name="Examination">
+                <option value = "" selected="selected"> </option>
+                <option name="正常考试" value="0">正常考试</option>
+                <option name="补考" value="1">补考</option>
+                <option name="重修" value="2">重修</option>
+                <option name="重考" value="0">重考</option> n
+            </select>
+            <br/>
+            年度：
+            <select name="school_year">
+                <option value = "" selected="selected"> </option>
+                <option name="2016" value="2016">2016</option>
+                <option name="2017" value="2017">2017</option>
+                <option name="2018" value="2018">2018</option>
+                <option name="2019" value="2019">2019</option>
+                <option name="2020" value="2020">2020</option>
+                <option name="2021" value="2019">2021</option>
+            </select>
+            学生学号：<input type = "text" name="studentNum"> 学生姓名：<input type = "text" name="studentName">
+            不及格门数：<select name = "FailNum" id = "" style = "height: 26px" >
+            <option value = "<="><=</option>
+            <option value = ">=">>=</option>
+        </select><input type = "text" style = "outline: none;" name="FailNumTex">
+            <button class="btn" ng-click="Btn()" type="button">查询</button>
+        </div>
+    </form>
+    <div style = "display: block; width: 100%;max-height: 400px; text-align: center;overflow-y:scroll;">
+        <table style = " width: 100%;text-align: center;margin: 15px auto;"
+               class = "table table-bordered">
+            <tbody style = "  width: 1198px;" ng-model = "tasklist">
+            <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>不及格门数</th>
+                <th>不及格学分</th>
+                <th>所在班级</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="kk in tasklist track by $index ">
+                <td>{{kk.student_number}}</td>
+                <td>{{kk.stuname}}</td>
+                <td>{{kk.ms}}</td>
+                <td>{{kk.bjgxf}}</td>
+                <td>{{kk.szbj}}</td>
+                <td>
+                    <button class = "btn" ng-click="detailsclick()">详情</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style = "display: block; width: 100%;max-height: 400px; text-align: center;overflow-y:scroll;">
+        <table style = " width: 100%;text-align: center;margin: 15px auto;"
+               class = "table table-bordered" ng-model = "detailslist">
+            <tr>
+                <th>开课学期</th>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>课程名称</th>
+                <th>班级名称</th>
+                <th>总成绩</th>
+                <th>学分</th>
+                <th>学时</th>
+                <th>课程性质</th>
+                <th>课程类别</th>
+                <th>考试性质</th>
+                <th>考核方式</th>
+                <!--<th>补重学期</th>-->
+            </tr>
+            <tr ng-repeat="jj in detailslist track by $index">
+                <td>{{jj.semester}}</td>
+                <td>{{jj.student_number}}</td>
+                <td>{{jj.stuname}}</td>
+                <td>{{jj.course_name}}</td>
+                <td>{{jj.class_name}}</td>
+                <td>{{jj.final_exam_grade}}</td>
+                <td>{{jj.credits}}</td>
+                <td>{{jj.semester_hours}}</td>
+                <td>{{jj.course_nature_id}}</td>
+                <td>{{jj.category}}</td>
+                <td>{{jj.exam_type}}</td>
+                <td>{{jj.exam_state}}</td>
+                <!--<td>{{jj.}}</td>-->
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+<script>
+
+    var app = angular.module ( 'myApp' , [] );
+    app.controller ( 'PaginationDemoCtrl' , [ '$scope' , '$http' , '$log' , function ( $scope , $http , $log ) {
+        // $cookies.getAll();
+        // console.log( $cookies.getAll())
+        var ipnum="127.0.0.1:8080";
+        $scope.querySemester =
+                $http ( {
+                    method : 'post' ,
+                    url : "http://"+ipnum+"/hljsfjy/gradeApi/?p=app/grade/querySemester"
+                } )
+                        .success ( function ( data ) {
+                            $scope.querySemester = data.result;
+                            return $scope.querySemester
+                            // console.log (  querySemester );
+
+                        } );
+        // $scope.queryDepartment =
+        $http ( {
+            method : 'post' ,
+            url : "http://"+ipnum+"/hljsfjy/gradeApi/?p=app/grade/queryDepartment"
+        } )
+                .success ( function ( data ) {
+                    $scope.queryDepartment = data.result;
+                    // console.log (  $scope.queryDepartment );
+                    return $scope.queryDepartment;
+                } );
+        // console.log ( $scope.queryDepartment );
+
+        var Classdata={"teaching_task_id":0,"course_id":0};
+        $.ajaxSettings.async = false;
+        $.post("http://"+ipnum+"/hljsfjy/gradeApi/?p=app/grade/queryStudentClass",
+                {context:JSON.stringify(Classdata)},
+                function (data) {
+                    var StudentClass=document.getElementsByClassName("StudentClass");
+                    for(var i=0;i<data.result.length;i++){
+                        var newOption=document.createElement("option");
+                        newOption.value=data.result[i].name;
+                        newOption.id=data.result[i].id;
+                        newOption.innerText=data.result[i].name;
+                        StudentClass[0].appendChild(newOption);
+                    }
+                });
+
+        /*$.post("http://"+ipnum+"/hljsfjy/gradeApi/?p=app/grade/queryMajor",
+         {context:JSON.stringify(DepartmentId)},
+         function (data) {
+         $scope.queryMajors=data.result;
+         console.log($scope.queryMajors)
+         });
+         */
+        $scope.opaChangeMajor=function (  ) {
+
+            // var Department=document.getElementsByClassName("Department");
+            // $(".Department option:selected").attr("id");
+            // console.log($(".Department option:selected").attr("id"))Major
+            let DepartmentId={"department_id":$(".Department option:selected").attr("id")};
+            // console.log(DepartmentId);
+
+
+
+            $.post("http://"+ipnum+"/hljsfjy/gradeApi/?p=app/grade/queryMajor",
+                    {context:JSON.stringify(DepartmentId)},
+                    function (data) {
+                        $scope.queryMajors=data.result;
+                        // console.log($scope.queryMajors)
+                    });
+
+        }
+        $scope.detailsclick=function (  ) {
+            // console.log(JSON.stringify(this.kk))
+            $.post("http://"+ipnum+"/hljsfjy/cjdApi/?p=app/cjd/queryFailDetil",
+                    {context:JSON.stringify(this.kk)},
+                    function (data) {
+                        $scope.detailslist=data.result;
+                        for(var i=0;i<$scope.detailslist.length;i++){
+                            if($scope.detailslist[i].exam_type==0){
+                                $scope.detailslist[i].exam_type="正常考试"
+                            }
+                            if($scope.detailslist[i].exam_type==1){
+                                $scope.detailslist[i].exam_type="补考"
+                            }
+                            if($scope.detailslist[i].exam_type==2){
+                                $scope.detailslist[i].exam_type="重修"
+                            }
+                            if($scope.detailslist[i].exam_type==3){
+                                $scope.detailslist[i].exam_type="重考"
+                            }
+                            // ------------------------------------------------------
+                            if($scope.detailslist[i].course_nature_id==0){
+                                $scope.detailslist[i].course_nature_id="必修"
+                            }
+                            if($scope.detailslist[i].course_nature_id==1){
+                                $scope.detailslist[i].course_nature_id="限选"
+                            }
+                            if($scope.detailslist[i].course_nature_id==2){
+                                $scope.detailslist[i].course_nature_id="任选"
+                            }
+                            if($scope.detailslist[i].course_nature_id==3){
+                                $scope.detailslist[i].course_nature_id="选修"
+                            }
+                            // ------------------------------------------------------
+                            if($scope.detailslist[i].exam_state==0){
+                                $scope.detailslist[i].exam_state="正常考试"
+                            }
+                            if($scope.detailslist[i].exam_state==1){
+                                $scope.detailslist[i].exam_state="考查"
+                            }
+                            if($scope.detailslist[i].exam_state==2){
+                                $scope.detailslist[i].exam_state="考试"
+                            }
+                            if($scope.detailslist[i].exam_state==3){
+                                $scope.detailslist[i].exam_state="缓考"
+                            }
+                            if($scope.detailslist[i].exam_state==4){
+                                $scope.detailslist[i].exam_state="旷考"
+                            }
+                            if($scope.detailslist[i].exam_state==5){
+                                $scope.detailslist[i].exam_state="舞弊"
+                            }
+                            if($scope.detailslist[i].exam_state==6){
+                                $scope.detailslist[i].exam_state="其他"
+                            }
+                            /* console.log($scope.detailslist[i].exam_state);
+                             console.log($scope.detailslist[i].exam_type);*/
+                        }
+                        // console.log($scope.detailslist);
+                    });
+        }
+        $scope.Btn=function (  ) {
+            $scope.detailslist="";
+            let querySemester={name:"querySemester_id",value:$(".querySemester option:selected").attr("id")};
+            console.log(querySemester);
+            let DepartmentId={name:"department_id",value:$(".Department option:selected").attr("id")};
+            if(DepartmentId.value===undefined){
+                DepartmentId.value="";
+                // alert(1)
+                console.log(DepartmentId.value);
+            }
+            // console.log(DepartmentId)
+            let Majorid={name:"Major_id",value:$(".Major option:selected").attr("id")};
+            if(Majorid.value===undefined){
+                Majorid.value="";
+                // alert(1)
+                console.log(Majorid.value);
+            }
+            // console.log(Majorid);
+            let StudentClassid={name:"StudentClass_id",value:$(".StudentClass option:selected").attr("id")};
+            if(StudentClassid.value===undefined){
+                StudentClassid.value="";
+                // alert(1)
+                console.log(StudentClassid.value);
+            }
+            // console.log(StudentClassid);
+            var data = $ ( "form" ).serializeArray ();
+            data.push(DepartmentId);
+            data.push(Majorid);
+            data.push(StudentClassid);
+            // console.log(data[0].value.indexOf("?"));
+            if(data[0].value.indexOf("?")>=0){
+                data[0].value="";
+                // alert(1)
+                // console.log(2);
+            }
+            // console.log(JSON.stringify(data));
+            $.post("http://"+ipnum+"/hljsfjy/cjdApi/?p=app/cjd/queryFail",
+                    {context:JSON.stringify(data)},
+                    function (data) {
+                        $scope.tasklist=data.result;
+                        // console.log( $scope.tasklist)
+                    });
+            console.log(data)
+        }
+    } ] );
+
+</script>
+
+</html>
