@@ -99,7 +99,7 @@ public class StudentCjd extends HttpServlet {
                 " IFnull(cg.class_name,'空'), " +
                 " IFnull(sb.student_number,'空'), " +
                 " IFnull(sb.stuname,'空'), " +
-                " IFnull(sb.sex,'空'), " +
+                " IFnull(case sex when '1' then '男' else '女' end, '空'), " +
                 " IFnull(sb.idcard,'空'), " +
                 " IFnull(sb.birth,'空'), " +
                 " IFnull(sb.start_date,'空'), " +
@@ -113,28 +113,11 @@ public class StudentCjd extends HttpServlet {
                 " LEFT JOIN class_grade cg on cg.classroom_id and cg.id = sb.classroomid" +
                 " WHERE 1=1 ";
 
-        String sql1 = " SELECT" +
-                " IFnull(tv.semester,'空')," +
-                " IFnull(course.course_name,'空')," +
-                " IFnull(tv.course_nature_id,'空'),  " +
-                " IFnull(tv.semester_hours,'空')," +
-                " IFnull(tv.credits_term, 0)," +
-                " IFnull(gs.final_exam_grade,'空')," +
-                " IFnull(tv.assessment_id, 0), " +
-                " IFnull(gs.totel_grade, 0)  " +
-                " FROM" +
-                " teaching_task_view AS tv" +
-                " INNER JOIN dict_courses AS course ON tv.course_id = course.id" +
-                " INNER JOIN student_basic AS sb " +
-                " INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id" +
-                " INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id" +
-                " WHERE 1=1 AND ep.check_state = 2 ";
-
-
+        String sql1 = "SELECT semester , course_name , course_nature_id , semester_hours , credits_term , final_exam_grade , assessment_id , totel_grade , totel_grade1 , totel_grade2 FROM( SELECT IFnull(tv.semester , '空') AS semester , IFnull(course.course_name , '空') AS course_name , IFnull(tv.course_nature_id , '空') AS course_nature_id , IFnull(tv.semester_hours , '空') AS semester_hours , IFnull(tv.credits_term , 0) AS credits_term , IFnull(gs.final_exam_grade , '空') AS final_exam_grade , IFnull(tv.assessment_id , 0) AS assessment_id , IFnull(MAX(gs.totel_grade) , 0) AS totel_grade , max(gs.totel_grade) AS totel_grade1 , COUNT(gs.totel_grade) AS totel_grade2 , course.id AS course_id , ep.check_state AS check_state , ep.teaching_task_id AS teaching_task_id , gs.student_id AS student_id , tv.class_id as class_id , sb.student_number as student_number FROM teaching_task_view AS tv INNER JOIN dict_courses AS course ON tv.course_id = course.id INNER JOIN class_grade AS cv ON tv.class_id = cv.id INNER JOIN student_basic AS sb ON cv.id = sb.classroomid INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id WHERE 1 = 1 AND ep.check_state = '2' GROUP BY cv.id , sb.id , tv.semester , course.id) AS temp1 where 1 = 1";
         String student_id_str = String.valueOf(student_id);
         if (student_id_str != null && student_id_str.length() != 0) {
             sql += " and sb.id = " + student_id + "";
-            sql1 += "and sb.id = " + student_id + "";
+            sql1 += "  and student_id = " + student_id + " GROUP BY teaching_task_id ";
         } else {
 
         }
@@ -152,7 +135,9 @@ public class StudentCjd extends HttpServlet {
                         "credits_term", STRING,
                         "final_exam_grade", STRING,
                         "assessment_id", STRING,
-                        "totel_grade", STRING));
+                        "totel_grade", STRING,
+                        "totel_grade1", STRING,
+                        "totel_grade2", STRING));
 
         TemplateExportParams params = new TemplateExportParams(address + "temp.xls");
         Map<String, Object> map = new HashMap<String, Object>();
@@ -222,6 +207,8 @@ public class StudentCjd extends HttpServlet {
                     String final_exam_grade = xscjkListMap.get("final_exam_grade").toString();
                     String assessment_id = xscjkListMap.get("assessment_id").toString();
                     String totel_grade = xscjkListMap.get("totel_grade").toString();
+                    String max_totel_grade1 = xscjkListMap.get("totel_grade1").toString();//历史最高成绩
+                    String cs = xscjkListMap.get("totel_grade2").toString();//考试次数
                     totel_grade = s_d(totel_grade);
                     //如果是考查课总成绩应该用等级方式assessment_id = 2 为考察
                     if ("1".equals(assessment_id)){
@@ -280,7 +267,11 @@ public class StudentCjd extends HttpServlet {
                             final_exam_grade = "优秀";
                         }
                     }
-                    lm.put("cj", totel_grade);
+                    if (Double.parseDouble(max_totel_grade1)>=60 && Double.parseDouble(cs)>1){
+                        lm.put("cj",  totel_grade+"*");
+                    }else{
+                        lm.put("cj",  totel_grade);
+                    }
                 }
                 if (i+1<xscjkList.size()){
                         Map<String, Object> xscjkListMap = xscjkList.get(i+1);
@@ -292,6 +283,8 @@ public class StudentCjd extends HttpServlet {
                         String final_exam_grade = xscjkListMap.get("final_exam_grade").toString();
                         String assessment_id = xscjkListMap.get("assessment_id").toString();
                         String totel_grade = xscjkListMap.get("totel_grade").toString();
+                        String max_totel_grade1 = xscjkListMap.get("totel_grade1").toString();//历史最高成绩
+                        String cs = xscjkListMap.get("totel_grade2").toString();//考试次数
                         totel_grade = s_d(totel_grade);
                     //如果是考查课总成绩应该用等级方式assessment_id = 2 为考察
                     if ("1".equals(assessment_id)){
@@ -350,7 +343,12 @@ public class StudentCjd extends HttpServlet {
                                 final_exam_grade = "优秀";
                             }
                         }
+                    if (Double.parseDouble(max_totel_grade1)>=60 && Double.parseDouble(cs)>1){
+                        lm.put("cj1",  totel_grade+"*");
+                    }else{
                         lm.put("cj1",  totel_grade);
+                    }
+
                     i=i+1;
 
                 }

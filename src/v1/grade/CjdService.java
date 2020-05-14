@@ -20,28 +20,7 @@ public class CjdService {
      * @throws Exception
      */
     public static List<Map<String, Object>> queryFail( String jsonString) throws Exception {
-        String sql1 = " SELECT" +
-                " sb.id," +
-                " sb.student_number," +
-                " sb.stuname," +
-                " Count(*)," +
-                " Sum(tv.credits_term)," +
-                " cv.class_name," +
-                " GROUP_CONCAT(course.course_name ORDER BY course.id)" +
-                " FROM" +
-                " teaching_task_latest_view AS tv" +
-                " INNER JOIN dict_courses AS course ON tv.course_id = course.id" +
-                " INNER JOIN student_basic AS sb" +
-                " INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id" +
-                " INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id" +
-                " INNER JOIN class_grade AS cv ON sb.classroomid = cv.id" +
-                " WHERE " +
-                " gs.final_exam_grade<60 " +
-                " AND NOT EXISTS(" +
-                " SELECT 1 FROM exam_plan ep2 JOIN grade_student gs2 on ep2.id = gs2.exam_plan_id" +
-                " WHERE ep2.teaching_task_id=ep.teaching_task_id AND gs2.student_id=gs.student_id AND gs2.final_exam_grade>=60" +
-                " )" +
-                "  ";
+        String sql1 = " SELECT student_id , student_number , stuname , COUNT(*) , SUM(credits_term) , class_name , GROUP_CONCAT(course_name ORDER BY course_id) FROM( SELECT sb.id AS student_id , sb.student_number AS student_number , sb.stuname AS stuname , COUNT(*) AS exam_times , tv.credits_term AS credits_term , cv.class_name AS class_name , course.course_name AS course_name , course.id AS course_id , MAX(gs.totel_grade) AS totel_grade , tv.semester AS semester , ep.check_state AS check_state , tv.school_year AS school_year , tv.`dict_departments_id` as dict_departments_id , tv.`major_id` as major_id , tv.`class_id` as class_id , ep.`exam_type` as exam_type , tv.`assessment_id` as assessment_id FROM teaching_task_view AS tv INNER JOIN dict_courses AS course ON tv.course_id = course.id INNER JOIN class_grade AS cv ON tv.class_id = cv.id INNER JOIN student_basic AS sb ON cv.id = sb.classroomid INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id GROUP BY cv.id , sb.id , tv.semester , course.id) AS temp1 WHERE totel_grade < 60 AND check_state = '2'  " ;
         JSONArray jsonObject = JSONArray.fromObject(jsonString);
         HashMap<Object, Object> map = new HashMap<Object, Object>();//前台传过来的值
         for(int i=0;i<jsonObject.size();i++){
@@ -62,33 +41,33 @@ public class CjdService {
         String school_year = map.get("school_year").toString();
 
         if( StringUtils.isNotBlank(querySemester)){
-            sql1+=" and tv.`semester` ='"+querySemester+"'"+"  ";
+            sql1+=" and `semester` ='"+querySemester+"'"+"  ";
         }
         if( StringUtils.isNotBlank(queryDepartment)){
-            sql1+=" and tv.`dict_departments_id` ="+queryDepartment+"  ";
+            sql1+=" and `dict_departments_id` ="+queryDepartment+"  ";
         }
         if( StringUtils.isNotBlank(queryMajors)){
-            sql1+=" and tv.`major_id` ="+queryMajors+"  ";
+            sql1+=" and `major_id` ="+queryMajors+"  ";
         }
         if(StringUtils.isNotBlank(StudentClass)){
-            sql1+=" and tv.`class_id` ="+StudentClass+"  ";
+            sql1+=" and `class_id` ="+StudentClass+"  ";
         }
         if( StringUtils.isNotBlank(studentNum)){
-            sql1+=" and sb.`student_number` ="+studentNum+"  ";
+            sql1+=" and `student_number` ="+studentNum+"  ";
         }
         if( StringUtils.isNotBlank(studentName)){
-            sql1+=" and sb.`stuname` ='"+studentName+"' "+"  ";
+            sql1+=" and `stuname` ='"+studentName+"' "+"  ";
         }
         if( StringUtils.isNotBlank(Examination)){
-            sql1+=" and ep.`exam_type` = "+Examination+"  ";
+            sql1+=" and `exam_type` = "+Examination+"  ";
         }
         if( StringUtils.isNotBlank(Assessment)){
-            sql1+="  and tv.`assessment_id` = "+Assessment+""  ;
+            sql1+="  and `assessment_id` = "+Assessment+""  ;
         }
         if( StringUtils.isNotBlank(school_year)){
-            sql1+="  and tv.`school_year` = "+school_year+""  ;
+            sql1+="  and `school_year` = "+school_year+""  ;
         }
-        sql1+="  GROUP BY sb.`id` ";
+        sql1+="  GROUP BY student_id ";
         if( StringUtils.isNotBlank(FailNum) &&StringUtils.isNotBlank(FailNumTex)){
             sql1+=" having  Count(*) "+FailNum+FailNumTex+"  ";
         }

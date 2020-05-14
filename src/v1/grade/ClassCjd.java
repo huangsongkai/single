@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import service.util.tool.StringUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -18,7 +19,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import static v1.grade.DBHelper.ResultType.DOUBLE;
 import static v1.grade.DBHelper.ResultType.STRING;
 
 
@@ -95,13 +95,13 @@ public class ClassCjd extends HttpServlet {
                " course.id as course_id," +
                " max(gs.final_exam_grade) as final_exam_grade" +
                " FROM" +
-               " teaching_task_latest_view AS tv" +
+               " teaching_task_view AS tv" +
                " INNER JOIN dict_courses AS course ON tv.course_id = course.id" +
                " INNER JOIN class_grade AS cv ON tv.class_id = cv.id" +
                " INNER JOIN student_basic AS sb ON cv.id = sb.classroomid" +
                " INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id" +
                " INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id" +
-               " WHERE 1=1  ";
+               " WHERE 1=1   AND ep.check_state = '2'  ";
         String student_class_id_str = String.valueOf(student_class_id);
         if(student_class_id_str != null && student_class_id_str.length() != 0 && semester != null && semester.length() != 0 ){
             sql1+= " and tv.semester = (select academic_year from academic_year where id ='"+semester+"')   " +
@@ -136,7 +136,7 @@ public class ClassCjd extends HttpServlet {
         List<Map<String, Object>> bjcjb = DBHelper.getReader().doQuery(sql1, new Object[0],
                 DBHelper.keyAndTypes("id", STRING, "class_name", STRING,
                         "student_number", STRING, "stuname", STRING,
-                        "semester",STRING , "ms", STRING, "a", STRING, "b1", STRING, "c", DOUBLE, "d1", DOUBLE));
+                        "semester",STRING , "ms", STRING, "a", STRING, "b1", STRING, "c", STRING, "d1", STRING));
 
         SXSSFWorkbook workbook = new SXSSFWorkbook(50);
         Sheet sheet = workbook.createSheet("班级成绩表");
@@ -167,7 +167,10 @@ public class ClassCjd extends HttpServlet {
 
 
         for (int i = 0; i < aList.length; i++) {
-            titles[i+3] = aList[i] ;
+            titles[i+3]="";
+            if(StringUtil.isNotEmpty(aList[i])){
+                titles[i+3] += aList[i]+"" ;
+            }
         }
         titles[titles.length-2] = "不及格";
         titles[titles.length-1] = "所得学分";
@@ -199,12 +202,14 @@ public class ClassCjd extends HttpServlet {
                 String[] cList1 = d1.split(",");
                 int bjg = 0;
                 for (int i = 0; i < cList.length; i++) {
-                    data[i+3] = cList[i].toString();
+                    data[i+3]="";
                     if (Double.parseDouble(cList[i]) < 60) {
                         bjg++;
                     }
                     if (Double.parseDouble(cList[i])>=60 && Double.parseDouble(cList1[i])>1){
-                        data[1] = stuname+"*";
+                        data[i+3] += cList[i].toString()+"*";
+                    }else{
+                        data[i+3] += cList[i].toString()+"";
                     }
                 }
                 data[data.length-2] = bjg+"";

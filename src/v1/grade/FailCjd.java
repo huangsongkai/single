@@ -77,24 +77,7 @@ public class FailCjd extends HttpServlet {
      * @throws IOException
      */
     public void failCjd(HttpServletResponse response) throws IOException, SQLException {
-        String sql1 = " SELECT" +
-                " sb.id, " +
-                " sb.student_number, " +
-                " sb.stuname, " +
-                " Count(*), " +
-                " Sum(tv.credits), " +
-                " cv.class_name, " +
-                " GROUP_CONCAT(course.course_name ORDER BY course.id) " +
-                " FROM " +
-                " teaching_task_view AS tv " +
-                " INNER JOIN dict_courses AS course ON tv.course_id = course.id " +
-                " INNER JOIN student_basic AS sb " +
-                " INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id " +
-                " INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id " +
-                " INNER JOIN class_grade AS cv ON sb.classroomid = cv.id " +
-                " WHERE gs.final_exam_grade<60 " +
-                " AND ep.check_state = 2"+
-                " GROUP BY sb.id";
+        String sql1 = "SELECT sb.id , sb.student_number , sb.stuname , Count(*) , Sum(tv.credits_term) , cv.class_name , GROUP_CONCAT( course.course_name ORDER BY course.id) FROM teaching_task_view AS tv INNER JOIN dict_courses AS course ON tv.course_id = course.id INNER JOIN student_basic AS sb INNER JOIN exam_plan AS ep ON tv.id = ep.teaching_task_id INNER JOIN grade_student AS gs ON ep.id = gs.exam_plan_id AND gs.student_id = sb.id INNER JOIN class_grade AS cv ON sb.classroomid = cv.id WHERE gs.totel_grade < 60 AND ep.check_state = '2' AND NOT EXISTS( SELECT 1 FROM exam_plan ep2 JOIN grade_student gs2 ON ep2.id = gs2.exam_plan_id WHERE ep2.teaching_task_id = ep.teaching_task_id AND gs2.student_id = gs.student_id AND gs2.totel_grade >= 60 AND ep.check_state = '2') GROUP BY sb.id  ";
         System.out.println(sql1);
         List<Map<String, Object>> bjgtj = DBHelper.getReader().doQuery(sql1, new Object[0],
                 DBHelper.keyAndTypes("id", STRING,"student_number", STRING,
